@@ -1,7 +1,7 @@
 import model from "./model.js";
 
 export const createUser = (user) => {
-    delete user._id
+    delete user._id // remove _id field just in case client sends it
     return model.create(user);
 }
 
