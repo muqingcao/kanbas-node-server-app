@@ -1,4 +1,5 @@
 import model from "./model.js";
+let currentUser = null;
 
 export const createUser = (user) => {
     delete user._id // remove _id field just in case client sends it
@@ -21,9 +22,11 @@ export const findUsersByPartialName = (partialName) => {
     });
 };
 
+// first step of sign up (followed by createUser)
 export const findUserByUsername = (username) =>
     model.findOne({ username: username });
 
+// Sign in with credentials
 export const findUserByCredentials = (username, password) =>
     model.findOne({ username, password });
 
