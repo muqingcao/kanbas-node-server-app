@@ -5,9 +5,9 @@ import Lab5 from './Lab5/index.js';
 import CourseRoutes from "./Kanbas/Courses/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
+import UserRoutes from "./Kanbas/Users/routes.js"
 import cors from "cors";
 import mongoose from 'mongoose';
-import UserRoutes from "./Kanbas/Users/routes.js"
 import session from "express-session";
 import path from 'path';
 import { fileURLToPath } from 'url';
