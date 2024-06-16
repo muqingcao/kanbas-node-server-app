@@ -9,6 +9,9 @@ import cors from "cors";
 import mongoose from 'mongoose';
 import UserRoutes from "./Kanbas/Users/routes.js"
 import session from "express-session";
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
@@ -36,6 +39,13 @@ app.use(
     session(sessionOptions));
 
 app.use(express.json());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use('/images', express.static(path.join(__dirname, '../kanbas-react-web-app/public/images')));
+
+
 UserRoutes(app);
 ModuleRoutes(app);
 CourseRoutes(app);
