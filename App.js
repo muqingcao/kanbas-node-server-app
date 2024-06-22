@@ -7,6 +7,7 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 import UserRoutes from "./Kanbas/Users/routes.js";
 import QuizRoutes from "./Kanbas/Quizzes/routes.js";
+import EnrollmentRoutes from "./Kanbas/Enrollments/routes.js"
 import cors from "cors";
 import mongoose from 'mongoose';
 import session from "express-session";
@@ -52,8 +53,11 @@ ModuleRoutes(app);
 CourseRoutes(app);
 AssignmentRoutes(app);
 QuizRoutes(app);
+EnrollmentRoutes(app);
 
 Hello(app);
 Lab5(app);
 
-app.listen(process.env.PORT || 4000)
+app.listen((process.env.PORT || 4000), () => {
+    console.log('Server is running on port 4000');
+});

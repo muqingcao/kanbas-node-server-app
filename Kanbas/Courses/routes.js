@@ -24,22 +24,47 @@ export default function CourseRoutes(app) {
         }
     });
 
-    // Creating New Courses
+    // Creating New Courses with author info
     app.post("/api/courses", async (req, res) => {
-        const course = req.body;
+        const currentUser = req.session.currentUser;
+        console.log("Current user:", currentUser); 
+        if (!currentUser) {
+            res.sendStatus(401);
+            return;
+        }
         try {
-            const newCourse = await dao.createCourse(course);
+            console.log("Request body:", req.body);
+            const newCourse = await dao.createCourse({
+                ...req.body,
+                author: currentUser._id,
+            });
             res.json(newCourse);
+        } catch (error) {
+            console.error("Error creating course:", error);
+            res.status(500).send({ error: error.message });
+        }
+    });
+
+    // Retrieving all the courses
+    app.get("/api/courses", async (req, res) => {
+        try {
+            const courses = await dao.findAllCourses();
+            res.send(courses);
         } catch (error) {
             res.status(500).send(error);
         }
     });
 
-    // Retrieving Courses
-    app.get("/api/courses", async (req, res) => {
+    // Retrieving all the courses that are created by the author
+    app.get("/api/courses/published", async (req, res) => {
+        const currentUser = req.session.currentUser;
+        if (!currentUser) {
+            res.send([]);
+            return;
+        }
         try {
-            const courses = await dao.findAllCourses();
-            res.json(courses);
+            const courses = await dao.findCoursesByAuthor(currentUser._id);
+            res.send(courses);
         } catch (error) {
             res.status(500).send(error);
         }
